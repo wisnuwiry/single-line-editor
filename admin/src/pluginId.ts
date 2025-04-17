@@ -1,0 +1,1 @@
+export const PLUGIN_ID = 'single-line-editor';
