@@ -5,7 +5,7 @@ Supports **bold**, _italic_, and ~~strikethrough~~ formatting — all in a singl
 
 Built with [Tiptap](https://tiptap.dev/) and designed for simplicity.
 
----
+![Preview](./assets/preview.png)
 
 ## ✨ Features
 
