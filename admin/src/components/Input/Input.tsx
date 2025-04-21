@@ -2,6 +2,8 @@ import { useEffect } from 'react'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { Field } from '@strapi/design-system'
+import { IconButton } from '@strapi/design-system'
+import { Bold, Italic, StrikeThrough } from '@strapi/icons'
 
 interface SingleLineEditorInputProps {
   name: string
@@ -13,6 +15,11 @@ interface SingleLineEditorInputProps {
   required?: boolean
   error?: string
   onChange: (e: { target: { name: string; value: string; type: string } }) => void
+  attribute: {
+    options?: {
+      toolbar?: boolean
+    }
+  }
 }
 
 const SingleLineEditorInput: React.FC<SingleLineEditorInputProps> = ({
@@ -25,7 +32,11 @@ const SingleLineEditorInput: React.FC<SingleLineEditorInputProps> = ({
   required,
   error,
   onChange,
+  attribute,
 }) => {
+  const theme = localStorage.getItem('STRAPI_THEME') || 'light'
+  const isDarkMode = theme === 'dark'
+
   const editor = useEditor({
     content: value || '',
     extensions: [
@@ -49,11 +60,19 @@ const SingleLineEditorInput: React.FC<SingleLineEditorInputProps> = ({
       },
       attributes: {
         class: 'editor-input',
-        style: 'padding: 8px 12px; border: 1px solid #dcdce4; border-radius: 4px; font-size: 14px',
+        style: `
+    border-radius: 4px;
+    font-size: 1.4rem;
+    line-heigh: 2.2rem;
+    padding-inline-start: 16px;
+    padding-inline-end: 16px;
+    padding-block: 8px;
+    outline: none;
+  `,
       },
     },
     onUpdate({ editor }) {
-      const html = editor.getHTML()      
+      const html = editor.getHTML()
 
       onChange({
         target: {
@@ -81,22 +100,62 @@ const SingleLineEditorInput: React.FC<SingleLineEditorInputProps> = ({
       required={required}
     >
       {label && (
-        <Field.Label
-          action={labelAction}
-          style={{
-            display: 'block',
-            fontSize: '13px',
-            fontWeight: 600,
-            color: '#32324d',
-            marginBottom: '4px',
-          }}
-        >
+        <Field.Label action={labelAction}>
           {label}
           {labelAction && <span style={{ marginLeft: '8px' }}>{labelAction}</span>}
         </Field.Label>
       )}
 
-      <EditorContent editor={editor} />
+      <div
+        style={{
+          borderRadius: '4px',
+          background: isDarkMode ? '#212134' : 'rgb(255, 255, 255)',
+          border: `1px solid ${isDarkMode ? '#4a4a6a' : 'rgb(220, 220, 228)'}`,
+        }}
+      >
+        {attribute.options?.toolbar && (
+          <div
+            style={{
+              paddingBlockStart: '8px',
+              paddingInlineEnd: '8px',
+              paddingBlockEnd: '8px',
+              paddingInlineStart: '8px',
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              flexDirection: 'row',
+              gap: '4px',
+              borderBottom: `1px solid ${isDarkMode ? '#4a4a6a' : 'rgb(220, 220, 228)'}`
+            }}
+          >
+            <IconButton
+              onClick={() => editor?.chain().focus().toggleBold().run()}
+              variant={editor?.isActive('bold') ? 'secondary' : 'ghost'}
+              style={{ border: 'none' }}
+            >
+              <Bold />
+            </IconButton>
+
+            <IconButton
+              onClick={() => editor?.chain().focus().toggleItalic().run()}
+              variant={editor?.isActive('italic') ? 'secondary' : 'ghost'}
+              style={{ border: 'none' }}
+            >
+              <Italic />
+            </IconButton>
+
+            <IconButton
+              onClick={() => editor?.chain().focus().toggleStrike().run()}
+              variant={editor?.isActive('strike') ? 'secondary' : 'ghost'}
+              style={{ border: 'none' }}
+            >
+              <StrikeThrough />
+            </IconButton>
+          </div>
+        )}
+
+        <EditorContent editor={editor} />
+      </div>
 
       <Field.Hint />
       <Field.Error />

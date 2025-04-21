@@ -22,6 +22,20 @@ export default {
       },
 
       options: {
+        base: [
+          {
+            intlLabel: {
+              id: `${PLUGIN_ID}.options.base.toolbar`,
+              defaultMessage: 'Toolbar',
+            },
+            description: {
+              id: `${PLUGIN_ID}.options.base.toolbar.description`,
+              defaultMessage: 'Enable the editor toolbar to help user accessibility.',
+            },
+            name: 'options.toolbar',
+            type: 'checkbox',
+          }
+        ],
         advanced: [
           {
             sectionTitle: {
