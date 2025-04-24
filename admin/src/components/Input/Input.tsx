@@ -34,8 +34,18 @@ const SingleLineEditorInput: React.FC<SingleLineEditorInputProps> = ({
   onChange,
   attribute,
 }) => {
-  const theme = localStorage.getItem('STRAPI_THEME') || 'light'
-  const isDarkMode = theme === 'dark'
+  const getTheme = () => {
+    const theme = localStorage.getItem('STRAPI_THEME')
+
+    if (theme === 'light' || theme === 'dark') {
+      return theme
+    }
+
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+    return prefersDark ? 'dark' : 'light'
+  }
+
+  const isDarkMode = getTheme() === 'dark'
 
   const editor = useEditor({
     content: value || '',
@@ -125,7 +135,7 @@ const SingleLineEditorInput: React.FC<SingleLineEditorInputProps> = ({
               alignItems: 'center',
               flexDirection: 'row',
               gap: '4px',
-              borderBottom: `1px solid ${isDarkMode ? '#4a4a6a' : 'rgb(220, 220, 228)'}`
+              borderBottom: `1px solid ${isDarkMode ? '#4a4a6a' : 'rgb(220, 220, 228)'}`,
             }}
           >
             <IconButton
