@@ -4,6 +4,7 @@ import StarterKit from '@tiptap/starter-kit'
 import { Field } from '@strapi/design-system'
 import { IconButton } from '@strapi/design-system'
 import { Bold, Italic, StrikeThrough } from '@strapi/icons'
+import CharacterCount from '@tiptap/extension-character-count'
 
 interface SingleLineEditorInputProps {
   name: string
@@ -17,7 +18,8 @@ interface SingleLineEditorInputProps {
   onChange: (e: { target: { name: string; value: string; type: string } }) => void
   attribute: {
     options?: {
-      toolbar?: boolean
+      toolbar?: boolean,
+      characterLimit?: number
     }
   }
 }
@@ -60,6 +62,7 @@ const SingleLineEditorInput: React.FC<SingleLineEditorInputProps> = ({
         listItem: false,
         paragraph: {},
       }),
+      ...(attribute.options?.characterLimit ? [CharacterCount.configure({ limit: attribute.options.characterLimit })] : []),
     ],
     editorProps: {
       handleKeyDown: (_, event) => {
@@ -165,6 +168,11 @@ const SingleLineEditorInput: React.FC<SingleLineEditorInputProps> = ({
         )}
 
         <EditorContent editor={editor} />
+        {attribute.options?.characterLimit && (
+          <div style={{ paddingInlineStart: '8px', paddingBlockEnd: '8px', fontSize: '1.2rem', color: isDarkMode ? '#868696' : '#868696' }}>
+            {editor?.storage.characterCount.characters()} / {attribute.options.characterLimit}
+          </div>
+        )}
       </div>
 
       <Field.Hint />
