@@ -6,7 +6,7 @@ export default {
   register(app: any) {
     app.customFields.register({
       name: 'input',
-      type: 'string',
+      type: 'text',
       pluginId: PLUGIN_ID,
       icon: PluginIconCard,
       intlLabel: {
@@ -34,6 +34,18 @@ export default {
             },
             name: 'options.toolbar',
             type: 'checkbox',
+          },
+          {
+            intlLabel: {
+              id: `${PLUGIN_ID}.options.base.characterLimit`,
+              defaultMessage: 'Character limit',
+            },
+            description: {
+              id: `${PLUGIN_ID}.options.base.characterLimit.description`,
+              defaultMessage: 'Set the maximum number of characters that can be entered in the editor.',
+            },
+            name: 'options.characterLimit',
+            type: 'number',
           }
         ],
         advanced: [

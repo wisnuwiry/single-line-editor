@@ -1,6 +1,11 @@
 {
-    "version": "1.0.2",
-    "keywords": ["richtext", "editor", "strapi", "text-field"],
+    "version": "1.0.3",
+    "keywords": [
+        "richtext",
+        "editor",
+        "strapi",
+        "text-field"
+    ],
     "type": "commonjs",
     "exports": {
         "./package.json": "./package.json",
@@ -19,7 +24,9 @@
             "default": "./dist/server/index.js"
         }
     },
-    "files": ["dist"],
+    "files": [
+        "dist"
+    ],
     "scripts": {
         "build": "strapi-plugin build",
         "watch": "strapi-plugin watch",
@@ -31,6 +38,7 @@
     "dependencies": {
         "@strapi/design-system": "^2.0.0-rc.14",
         "@strapi/icons": "^2.0.0-rc.23",
+        "@tiptap/extension-character-count": "^2.11.9",
         "@tiptap/react": "^2.11.7",
         "@tiptap/starter-kit": "^2.11.7",
         "react-intl": "^7.1.10"
