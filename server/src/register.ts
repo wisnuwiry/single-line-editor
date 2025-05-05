@@ -5,7 +5,7 @@ const register = ({ strapi }: { strapi: Core.Strapi }) => {
   strapi.customFields.register({
     name: FIELD_ID,
     plugin: PLUGIN_ID,
-    type: 'string',
+    type: 'text',
     inputSize: {
       default: 12,
       isResizable: true,
